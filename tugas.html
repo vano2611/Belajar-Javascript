@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tugas 1 - Luas & Keliling Persegi Panjang</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #9333ea 100%);
+            padding: 24px;
+            color: #1e293b;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 480px;
+            background: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.16);
+            overflow: hidden;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            background: linear-gradient(135deg, #3b82f6, #6366f1);
+            color: white;
+            padding: 28px 24px;
+            text-align: center;
+        }
+
+        .header .badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 4px 14px;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            backdrop-filter: blur(4px);
+        }
+
+        .header h1 {
+            font-size: 1.45rem;
+            font-weight: 700;
+            line-height: 1.3;
+        }
+
+        .header p {
+            font-size: 0.875rem;
+            opacity: 0.92;
+            margin-top: 6px;
+        }
+
+        .content {
+            padding: 28px 24px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #334155;
+            margin-bottom: 8px;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-wrapper input {
+            width: 100%;
+            padding: 12px 48px 12px 14px;
+            font-size: 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            outline: none;
+            transition: all 0.2s ease;
+            color: #0f172a;
+            font-weight: 500;
+        }
+
+        .input-wrapper input:focus {
+            border-color: #6366f1;
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15);
+        }
+
+        .input-wrapper .unit {
+            position: absolute;
+            right: 14px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            color: #94a3b8;
+            pointer-events: none;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 22px;
+            margin-bottom: 24px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 13px 18px;
+            border: none;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #4f46e5, #6366f1);
+            color: white;
+            box-shadow: 0 4px 14px rgba(79, 70, 229, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #4338ca, #4f46e5);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 18px rgba(79, 70, 229, 0.38);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .btn-secondary {
+            background: #f1f5f9;
+            color: #475569;
+        }
+
+        .btn-secondary:hover {
+            background: #e2e8f0;
+            color: #1e293b;
+        }
+
+        .results {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+
+        .result-card {
+            border-radius: 14px;
+            padding: 16px;
+            text-align: center;
+            transition: transform 0.2s ease;
+        }
+
+        .result-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .result-card.luas {
+            background: #eef2ff;
+            border: 1px solid #c7d2fe;
+        }
+
+        .result-card.keliling {
+            background: #ecfdf5;
+            border: 1px solid #a7f3d0;
+        }
+
+        .result-title {
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .result-card.luas .result-title {
+            color: #4f46e5;
+        }
+
+        .result-card.keliling .result-title {
+            color: #059669;
+        }
+
+        .result-value {
+            font-size: 1.45rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 4px;
+            word-break: break-word;
+        }
+
+        .result-formula {
+            font-size: 0.75rem;
+            color: #64748b;
+        }
+
+        .formula-detail {
+            margin-top: 18px;
+            padding: 14px 16px;
+            border-radius: 12px;
+            background: #f8fafc;
+            border: 1px dashed #cbd5e1;
+            font-size: 0.85rem;
+            color: #475569;
+        }
+
+        .formula-detail h4 {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            font-weight: 700;
+            color: #334155;
+            margin-bottom: 6px;
+        }
+
+        .formula-detail p {
+            line-height: 1.6;
+        }
+
+        .footer {
+            margin-top: 22px;
+            text-align: center;
+            font-size: 0.78rem;
+            color: #94a3b8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <span class="badge">X RPL B - Javascript</span>
+            <h1>Luas & Keliling Persegi Panjang</h1>
+            <p>Ubah input panjang dan lebar untuk menghitung hasil</p>
+        </div>
+
+        <div class="content">
+            <!-- Form Input -->
+            <div class="form-group">
+                <label for="panjang">Panjang</label>
+                <div class="input-wrapper">
+                    <input type="number" id="panjang" placeholder="Masukkan panjang..." value="150" min="0" step="any">
+                    <span class="unit">m</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="lebar">Lebar</label>
+                <div class="input-wrapper">
+                    <input type="number" id="lebar" placeholder="Masukkan lebar..." value="15" min="0" step="any">
+                    <span class="unit">m</span>
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button type="button" class="btn btn-primary" id="btnHitung" onclick="hitungPersegi()">
+                    Hitung
+                </button>
+                <button type="button" class="btn btn-secondary" id="btnReset" onclick="resetForm()">
+                    Reset
+                </button>
+            </div>
+
+            <!-- Kartu Hasil -->
+            <div class="results">
+                <div class="result-card luas">
+                    <div class="result-title">Luas</div>
+                    <div class="result-value"><span id="luas">0</span> m<sup>2</sup></div>
+                    <div class="result-formula">Rumus: panjang × lebar</div>
+                </div>
+
+                <div class="result-card keliling">
+                    <div class="result-title">Keliling</div>
+                    <div class="result-value"><span id="keliling">0</span> m</div>
+                    <div class="result-formula">Rumus: 2 × (panjang + lebar)</div>
+                </div>
+            </div>
+
+            <!-- Rincian Perhitungan -->
+            <div class="formula-detail">
+                <h4>Langkah Perhitungan:</h4>
+                <p id="teksRincian">Memuat hasil...</p>
+            </div>
+
+            <div class="footer">
+                Tugas Pemrograman Web & Perangkat Bergerak
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function hitungPersegi() {
+            /*
+                ==Task 1==
+                Mengambil nilai variable panjang dan lebar dari input bertipe number
+            */
+            let panjang = parseFloat(document.getElementById("panjang").value);
+            let lebar = parseFloat(document.getElementById("lebar").value);
+
+            // Validasi jika input kosong atau angka tidak valid
+            if (isNaN(panjang) || isNaN(lebar)) {
+                document.getElementById("luas").innerText = "-";
+                document.getElementById("keliling").innerText = "-";
+                document.getElementById("teksRincian").innerText = "Silakan masukkan angka untuk panjang dan lebar.";
+                return;
+            }
+
+            /*
+                ==Task 2==
+                Buat variable luas yang berisi hasil perkalian panjang dan lebar
+            */
+            let luas = panjang * lebar;
+
+            /*
+                ==Task 3==
+                Buat variable keliling yang berisi hasil 2 * (panjang + lebar)
+            */
+            let keliling = 2 * (panjang + lebar);
+
+            // Tampilkan hasil ke elemen span id luas dan keliling
+            document.getElementById("luas").innerText = luas.toLocaleString('id-ID');
+            document.getElementById("keliling").innerText = keliling.toLocaleString('id-ID');
+
+            // Tampilkan langkah kalkulasi secara detail
+            document.getElementById("teksRincian").innerHTML =
+                `• <strong>Luas</strong> = ${panjang} × ${lebar} = <strong>${luas.toLocaleString('id-ID')} m²</strong><br>` +
+                `• <strong>Keliling</strong> = 2 × (${panjang} + ${lebar}) = <strong>${keliling.toLocaleString('id-ID')} m</strong>`;
+        }
+
+        // Fungsi untuk mereset nilai input
+        function resetForm() {
+            document.getElementById("panjang").value = "";
+            document.getElementById("lebar").value = "";
+            document.getElementById("luas").innerText = "0";
+            document.getElementById("keliling").innerText = "0";
+            document.getElementById("teksRincian").innerText = "Masukkan nilai untuk melihat rincian kalkulasi.";
+            document.getElementById("panjang").focus();
+        }
+
+        // Menjalankan hitungPersegi secara realtime saat pengguna mengetik di input
+        document.getElementById("panjang").addEventListener("input", hitungPersegi);
+        document.getElementById("lebar").addEventListener("input", hitungPersegi);
+
+        // Jalankan perhitungan awal saat halaman pertama kali dibuka
+        hitungPersegi();
+    </script>
+</body>
+</html>
